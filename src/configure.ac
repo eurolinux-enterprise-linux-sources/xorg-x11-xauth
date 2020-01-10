@@ -1,6 +1,5 @@
-
 dnl  Copyright 2005 Red Hat, Inc.
-dnl 
+dnl
 dnl  Permission to use, copy, modify, distribute, and sell this software and its
 dnl  documentation for any purpose is hereby granted without fee, provided that
 dnl  the above copyright notice appear in all copies and that both that
@@ -10,7 +9,7 @@ dnl  advertising or publicity pertaining to distribution of the software without
 dnl  specific, written prior permission.  Red Hat makes no
 dnl  representations about the suitability of this software for any purpose.  It
 dnl  is provided "as is" without express or implied warranty.
-dnl 
+dnl
 dnl  RED HAT DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE,
 dnl  INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS, IN NO
 dnl  EVENT SHALL RED HAT BE LIABLE FOR ANY SPECIAL, INDIRECT OR
@@ -21,35 +20,42 @@ dnl  PERFORMANCE OF THIS SOFTWARE.
 dnl
 dnl Process this file with autoconf to create configure.
 
-AC_PREREQ([2.57])
-AC_INIT(xauth,[1.0.2], [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg],xauth)
-AM_INIT_AUTOMAKE([dist-bzip2])
+AC_PREREQ([2.60])
+AC_INIT([xauth],
+	[1.0.9],
+	[https://bugs.freedesktop.org/enter_bug.cgi?product=xorg],
+	[xauth])
+AM_INIT_AUTOMAKE([foreign dist-bzip2])
 AM_MAINTAINER_MODE
 
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADERS([config.h])
 
-# Require xorg-macros version 1.1.0 or newer for XORG_WITH_LINT macro
-m4_ifndef([XORG_MACROS_VERSION], [AC_FATAL([must install xorg-macros 1.1 or later before running autoconf/autogen])])
-XORG_MACROS_VERSION(1.1)
+# Set common system defines for POSIX extensions, such as _GNU_SOURCE
+# Must be called before any macros that run the compiler (like
+# AC_PROG_LIBTOOL) to avoid autoconf errors.
+AC_USE_SYSTEM_EXTENSIONS
 
-AC_PROG_CC
-AC_PROG_INSTALL
-
-AC_TYPE_SIGNAL
+# Require X.Org macros 1.8 or later for MAN_SUBSTS set by XORG_MANPAGE_SECTIONS
+m4_ifndef([XORG_MACROS_VERSION],
+          [m4_fatal([must install xorg-macros 1.8 or later before running autoconf/autogen])])
+XORG_MACROS_VERSION(1.8)
+XORG_DEFAULT_OPTIONS
 
 AC_CHECK_HEADERS([net/errno.h])
 
+AC_CHECK_FUNCS([strlcpy])
+
 # Checks for pkg-config packages
-PKG_CHECK_MODULES(XAUTH, x11 xau xext xmuu)
-AC_SUBST(XAUTH_CFLAGS)
-AC_SUBST(XAUTH_LIBS)
+PKG_CHECK_MODULES(XAUTH, x11 xau xext xmuu xproto >= 7.0.17)
 
 # Transport selection macro from xtrans.m4
-# Needed to set *CONN defines for gethost.c & parsedpy.c 
+# Needed to set *CONN defines for gethost.c & parsedpy.c
 XTRANS_CONNECTION_FLAGS
 
 XORG_WITH_LINT
-XORG_MANPAGE_SECTIONS
-XORG_RELEASE_VERSION
 
-AC_OUTPUT([Makefile])
+AC_CONFIG_FILES([
+	Makefile
+	tests/Makefile
+	man/Makefile])
+AC_OUTPUT

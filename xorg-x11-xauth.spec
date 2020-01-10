@@ -2,8 +2,8 @@
 
 Summary: X.Org X11 X authority utilities
 Name: xorg-x11-%{pkgname}
-Version: 1.0.2
-Release: 7.1%{?dist}
+Version: 1.0.9
+Release: 1%{?dist}
 # NOTE: Remove Epoch line if package gets renamed
 Epoch: 1
 License: MIT
@@ -14,6 +14,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Source0: ftp://ftp.x.org/pub/individual/app/%{pkgname}-%{version}.tar.bz2
 Source10: mkxauth
 Source11: mkxauth.man
+Patch0: 0001-usage-Print-summary-for-the-n-option.patch
 
 BuildRequires: pkgconfig
 BuildRequires: libX11-devel
@@ -38,6 +39,7 @@ used in connecting to an X server.
 
 %prep
 %setup -q -n %{pkgname}-%{version}
+%patch0 -p1 -b .manpage
 
 %build
 %configure
@@ -58,14 +60,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS COPYING NEWS README ChangeLog
+%doc COPYING README ChangeLog
 %{_bindir}/xauth
 %{_bindir}/mkxauth
-#%dir %{_mandir}/man1x
 %{_mandir}/man1/xauth.1*
 %{_mandir}/man1/mkxauth.1*
 
 %changelog
+* Mon Nov 16 2015 Hans de Goede <hdegoede@redhat.com> - 1:1.0.9-1
+- xauth 1.0.9
+- Resolves: rhbz#1246430
+- Resolves: rhbz#909790
+
 * Mon Nov 30 2009 Dennis Gregorovic <dgregor@redhat.com> - 1:1.0.2-7.1
 - Rebuilt for RHEL 6
 
