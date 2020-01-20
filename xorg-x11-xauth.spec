@@ -3,12 +3,13 @@
 Summary: X.Org X11 X authority utilities
 Name: xorg-x11-%{pkgname}
 Version: 1.0.7
-Release: 3%{?dist}
+Release: 6.1%{?dist}
 # NOTE: Remove Epoch line if package gets renamed
 Epoch: 1
 License: MIT
 Group: User Interface/X
 URL: http://www.x.org
+Patch0: 0001-usage-Print-summary-for-the-n-option.patch
 
 Source0: ftp://ftp.x.org/pub/individual/app/%{pkgname}-%{version}.tar.bz2
 
@@ -26,6 +27,8 @@ used in connecting to an X server.
 
 %prep
 %setup -q -n %{pkgname}-%{version}
+
+%patch0 -p1 -b .manpage
 
 %build
 %configure
@@ -47,6 +50,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xauth.1*
 
 %changelog
+* Wed Feb 12 2014 Adam Jackson <ajax@redhat.com> 1.0.7-6.1
+- Mass rebuild
+
+* Mon Jan 6 2014 Soren Sandmann <ssp@redhat.com> - 1.0.7-6
+- Rebuild
+
+* Fri Dec 27 2013 Daniel Mach <dmach@redhat.com> - 1:1.0.7-5
+- Mass rebuild 2013-12-27
+
+* Tue Dec 17 2013 Soren Sandmann <ssp@redhat.com> - 1.0.7-4
+- Man page fixes (bz 948898)
+
 * Fri Feb 15 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:1.0.7-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
