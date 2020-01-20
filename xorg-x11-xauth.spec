@@ -2,8 +2,8 @@
 
 Summary: X.Org X11 X authority utilities
 Name: xorg-x11-%{pkgname}
-Version: 1.0.7
-Release: 6.1%{?dist}
+Version: 1.0.9
+Release: 1%{?dist}
 # NOTE: Remove Epoch line if package gets renamed
 Epoch: 1
 License: MIT
@@ -50,6 +50,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/xauth.1*
 
 %changelog
+* Wed May 13 2015 Hans de Goede <hdegoede@redhat.com> - 1.0.9-1
+- xauth 1.0.9
+- Resolves: rhbz#1194893
+
 * Wed Feb 12 2014 Adam Jackson <ajax@redhat.com> 1.0.7-6.1
 - Mass rebuild
 

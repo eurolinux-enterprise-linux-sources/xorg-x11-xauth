@@ -1,25 +1,27 @@
-From 85fdd99f8d80b370caad30fc09e2b1b18a43b1d6 Mon Sep 17 00:00:00 2001
+From 2f4dd910fd2964cc2d9c1006c41681beac63b91c Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?S=C3=B8ren=20Sandmann=20Pedersen?= <ssp@redhat.com>
 Date: Thu, 26 Sep 2013 12:30:03 -0400
-Subject: [PATCH] usage(): Print summary for the -n option
+Subject: [PATCH xauth] usage(): Print summary for the -n option
 
 This option is mentioned in the man page, but not in the help text
+
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
  xauth.c | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/xauth.c b/xauth.c
-index 13f6ace..4db47fb 100644
+index 85fcaf4..d9efda0 100644
 --- a/xauth.c
 +++ b/xauth.c
-@@ -67,6 +67,7 @@ usage(void)
+@@ -68,6 +68,7 @@ usage(void)
  "    -q                             turn off extra messages",
  "    -i                             ignore locks on authority file",
  "    -b                             break locks on authority file",
 +"    -n                             do not resolve host names in authority file",
+ "    -V                             show version number of xauth",
  "",
  "and commands have the following syntax:",
- "",
 -- 
-1.8.3.1
+2.4.0
 
